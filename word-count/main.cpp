@@ -50,7 +50,8 @@ void calculate() {
         string word;
         while (in) {
             in >> word;
-            word.erase(remove_if(word.begin(), word.end(), ::ispunct), word.end());
+            // filter non-alphabet-characters
+            word.erase(remove_if(word.begin(), word.end(), [](char x) { return !isalpha(x); }), word.end());
             transform(word.begin(), word.end(), word.begin(), ::tolower);
             cnt[word]++;
         }
