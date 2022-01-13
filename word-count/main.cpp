@@ -48,8 +48,7 @@ void calculate() {
         // count words in file
         map<string, int> cnt{};
         string word;
-        while (in) {
-            in >> word;
+        while (in >> word) {
             // filter non-alphabet-characters
             word.erase(remove_if(word.begin(), word.end(), [](char x) { return !isalpha(x); }), word.end());
             transform(word.begin(), word.end(), word.begin(), ::tolower);
