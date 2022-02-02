@@ -5,8 +5,6 @@
 #ifndef ORIENTATION_TASKS_CANDY_LOCK_H
 #define ORIENTATION_TASKS_CANDY_LOCK_H
 
-#endif //ORIENTATION_TASKS_CANDY_LOCK_H
-
 #include <iostream>
 #include "write_request.h"
 
@@ -28,7 +26,7 @@ class CandyLock {
     bool can_read;
     bool can_write;
     bool writer_waiting;
-    std::list<WriteRequest> writer_queue{};
+    std::list <WriteRequest> writer_queue{};
     std::mutex m{};
     std::condition_variable cv_readers{};
 public:
@@ -45,7 +43,7 @@ public:
 };
 
 void CandyLock::RLock() {
-    std::unique_lock<std::mutex> lk(m);
+    std::unique_lock <std::mutex> lk(m);
     // if !can_read, wait until one waiting writer get the lock and set can_read
     cv_readers.wait(lk, [this] { return can_read; });
     reader_count++;
@@ -53,7 +51,7 @@ void CandyLock::RLock() {
 }
 
 void CandyLock::RUnlock() {
-    std::unique_lock<std::mutex> lk(m);
+    std::unique_lock <std::mutex> lk(m);
     reader_count--;
     if (reader_count == 0) {
         can_write = true;
@@ -65,7 +63,7 @@ void CandyLock::RUnlock() {
 }
 
 void CandyLock::Lock() {
-    std::unique_lock<std::mutex> lk(m);
+    std::unique_lock <std::mutex> lk(m);
     if (!can_write) {   // cannot write, entering writer queue
         writer_waiting = true;
         can_read = false;
@@ -81,7 +79,7 @@ void CandyLock::Lock() {
 }
 
 void CandyLock::Unlock() {
-    std::unique_lock<std::mutex> lk(m);
+    std::unique_lock <std::mutex> lk(m);
     can_read = true;
     can_write = true;
     // wake up all readers (if any) and one writer (if any)
@@ -93,3 +91,5 @@ void CandyLock::Unlock() {
         writer_waiting = false;
     }
 }
+
+#endif //ORIENTATION_TASKS_CANDY_LOCK_H

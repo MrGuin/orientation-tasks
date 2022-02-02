@@ -5,9 +5,6 @@
 #ifndef ORIENTATION_TASKS_WRITE_REQUEST_H
 #define ORIENTATION_TASKS_WRITE_REQUEST_H
 
-#endif //ORIENTATION_TASKS_WRITE_REQUEST_H
-
-
 class WriteRequest {
     std::condition_variable &cv;
 public:
@@ -20,3 +17,5 @@ public:
 void WriteRequest::WakeWriter() {
     cv.notify_one();
 }
+
+#endif //ORIENTATION_TASKS_WRITE_REQUEST_H
